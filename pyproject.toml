@@ -1,0 +1,23 @@
+[project]
+name = "ecommerce-oltp"
+version = "0.1.0"
+description = "Synthetic E-commerce OLTP Data Generator using Python and Faker"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "faker>=40.44.0",
+    "python-dotenv>=1.2.4",
+]
+
+[build-system]
+requires = ["uv_build>=0.13.7,<0.14"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "ecommerce"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+    "ruff>=0.17.3",
+]
