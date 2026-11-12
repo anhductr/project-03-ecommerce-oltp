@@ -6,7 +6,6 @@ from ecommerce.utils.faker_utils import (
     random_datetime,
 )
 
-
 AUDIT_ACTORS = [
     "admin_01",
     "admin_02",
@@ -20,13 +19,19 @@ def generate_audit_fields(
     created_by: str = "data_generator",
     update_probability: float = 0.30,
     delete_probability: float = 0.02,
-) -> dict[str, object]:
+) -> dict[str, datetime | str | bool | None]:
 
     if created_at > as_of:
         raise ValueError("created_at cannot be after as_of")
 
     if not created_by or len(created_by) > 20:
         raise ValueError("created_by must contain 1-20 characters")
+
+    if not 0 <= update_probability <= 1:
+        raise ValueError("update_probability must be between 0 and 1")
+
+    if not 0 <= delete_probability <= 1:
+        raise ValueError("delete_probability must be between 0 and 1")
 
     # UPDATE AUDIT
     updated_at = None
