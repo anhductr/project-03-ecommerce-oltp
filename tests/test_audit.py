@@ -5,7 +5,6 @@ import pytest
 from ecommerce.utils.audit_utils import generate_audit_fields
 from ecommerce.utils.faker_utils import seed_generators
 
-
 CREATED_AT = datetime(2024, 5, 10, 8, 30, 15)
 AS_OF = datetime(2025, 5, 31, 23, 59, 59)
 
