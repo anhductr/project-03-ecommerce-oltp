@@ -9,7 +9,26 @@ CREATE TABLE brand (
     brand_id SERIAL PRIMARY KEY,
     brand_name VARCHAR(100) UNIQUE NOT NULL,
     country VARCHAR(50),
-    created_at TIMESTAMP NOT NULL
+    created_at TIMESTAMP NOT NULL,
+    created_by VARCHAR(20) NOT NULL DEFAULT 'data_generator',
+    updated_at TIMESTAMP,
+    updated_by VARCHAR(20),
+    is_deleted BOOLEAN NOT NULL DEFAULT FALSE,
+    deleted_at TIMESTAMP,
+    deleted_by VARCHAR(20),
+    CHECK (
+        (updated_at IS NULL AND updated_by IS NULL)
+        OR
+        (updated_at IS NOT NULL AND updated_by IS NOT NULL
+         AND updated_at >= created_at)
+    ),
+    CHECK (
+        (is_deleted = FALSE AND deleted_at IS NULL AND deleted_by IS NULL)
+        OR
+        (is_deleted = TRUE AND deleted_at IS NOT NULL
+         AND deleted_by IS NOT NULL
+         AND deleted_at >= COALESCE(updated_at, created_at))
+    )
 );
 
 
@@ -25,6 +44,31 @@ CREATE TABLE category (
         (level = 1 AND parent_category_id IS NULL)
         OR
         (level = 2 AND parent_category_id IS NOT NULL)
+    ),
+
+    created_by VARCHAR(20) NOT NULL DEFAULT 'data_generator',
+
+    updated_at TIMESTAMP,
+    updated_by VARCHAR(20),
+
+    is_deleted BOOLEAN NOT NULL DEFAULT FALSE,
+
+    deleted_at TIMESTAMP,
+    deleted_by VARCHAR(20),
+
+    CHECK (
+        (updated_at IS NULL AND updated_by IS NULL)
+        OR
+        (updated_at IS NOT NULL AND updated_by IS NOT NULL
+         AND updated_at >= created_at)
+    ),
+
+    CHECK (
+        (is_deleted = FALSE AND deleted_at IS NULL AND deleted_by IS NULL)
+        OR
+        (is_deleted = TRUE AND deleted_at IS NOT NULL
+         AND deleted_by IS NOT NULL
+         AND deleted_at >= COALESCE(updated_at, created_at))
     )
 );
 
@@ -38,7 +82,32 @@ CREATE TABLE seller (
         CHECK (seller_type IN ('Official', 'Marketplace')),
     rating DECIMAL(2,1)
         CHECK (rating >= 0 AND rating <= 5),
-    country VARCHAR(50) NOT NULL
+    country VARCHAR(50) NOT NULL,
+
+    created_at TIMESTAMP NOT NULL,
+    created_by VARCHAR(20) NOT NULL DEFAULT 'data_generator',
+    updated_at TIMESTAMP,
+    updated_by VARCHAR(20),
+
+    is_deleted BOOLEAN NOT NULL DEFAULT FALSE,
+
+    deleted_at TIMESTAMP,
+    deleted_by VARCHAR(20),
+
+    CHECK (
+        (updated_at IS NULL AND updated_by IS NULL)
+        OR
+        (updated_at IS NOT NULL AND updated_by IS NOT NULL
+         AND updated_at >= created_at)
+    ),
+
+    CHECK (
+        (is_deleted = FALSE AND deleted_at IS NULL AND deleted_by IS NULL)
+        OR
+        (is_deleted = TRUE AND deleted_at IS NOT NULL
+         AND deleted_by IS NOT NULL
+         AND deleted_at >= COALESCE(updated_at, created_at))
+    )
 );
 
 
@@ -52,7 +121,31 @@ CREATE TABLE customer (
         CHECK (gender IN ('Male', 'Female')),
     address VARCHAR(255),
     city VARCHAR(100),
-    created_at TIMESTAMP NOT NULL
+    created_at TIMESTAMP NOT NULL,
+    created_by VARCHAR(20) NOT NULL DEFAULT 'data_generator',
+
+    updated_at TIMESTAMP,
+    updated_by VARCHAR(20),
+
+    is_deleted BOOLEAN NOT NULL DEFAULT FALSE,
+
+    deleted_at TIMESTAMP,
+    deleted_by VARCHAR(20),
+
+    CHECK (
+        (updated_at IS NULL AND updated_by IS NULL)
+        OR
+        (updated_at IS NOT NULL AND updated_by IS NOT NULL
+         AND updated_at >= created_at)
+    ),
+
+    CHECK (
+        (is_deleted = FALSE AND deleted_at IS NULL AND deleted_by IS NULL)
+        OR
+        (is_deleted = TRUE AND deleted_at IS NOT NULL
+         AND deleted_by IS NOT NULL
+         AND deleted_at >= COALESCE(updated_at, created_at))
+    )
 );
 
 
@@ -81,7 +174,32 @@ CREATE TABLE product (
 
     created_at TIMESTAMP NOT NULL,
 
-    is_active BOOLEAN NOT NULL DEFAULT TRUE
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+
+    created_by VARCHAR(20) NOT NULL DEFAULT 'data_generator',
+
+    updated_at TIMESTAMP,
+    updated_by VARCHAR(20),
+
+    is_deleted BOOLEAN NOT NULL DEFAULT FALSE,
+
+    deleted_at TIMESTAMP,
+    deleted_by VARCHAR(20),
+
+    CHECK (
+        (updated_at IS NULL AND updated_by IS NULL)
+        OR
+        (updated_at IS NOT NULL AND updated_by IS NOT NULL
+         AND updated_at >= created_at)
+    ),
+
+    CHECK (
+        (is_deleted = FALSE AND deleted_at IS NULL AND deleted_by IS NULL)
+        OR
+        (is_deleted = TRUE AND deleted_at IS NOT NULL
+         AND deleted_by IS NOT NULL
+         AND deleted_at >= COALESCE(updated_at, created_at))
+    )
 );
 
 
@@ -110,7 +228,32 @@ CREATE TABLE promotion (
     ),
 
     CHECK (start_date >= created_at::DATE),
-    CHECK (end_date >= start_date)
+    CHECK (end_date >= start_date),
+
+    created_by VARCHAR(20) NOT NULL DEFAULT 'data_generator',
+
+    updated_at TIMESTAMP,
+    updated_by VARCHAR(20),
+
+    is_deleted BOOLEAN NOT NULL DEFAULT FALSE,
+
+    deleted_at TIMESTAMP,
+    deleted_by VARCHAR(20),
+
+    CHECK (
+        (updated_at IS NULL AND updated_by IS NULL)
+        OR
+        (updated_at IS NOT NULL AND updated_by IS NOT NULL
+         AND updated_at >= created_at)
+    ),
+
+    CHECK (
+        (is_deleted = FALSE AND deleted_at IS NULL AND deleted_by IS NULL)
+        OR
+        (is_deleted = TRUE AND deleted_at IS NOT NULL
+         AND deleted_by IS NOT NULL
+         AND deleted_at >= COALESCE(updated_at, created_at))
+    )
 );
 
 
@@ -126,7 +269,32 @@ CREATE TABLE promotion_product (
 
     created_at TIMESTAMP NOT NULL,
 
-    UNIQUE (promotion_id, product_id)
+    UNIQUE (promotion_id, product_id),
+
+    created_by VARCHAR(20) NOT NULL DEFAULT 'data_generator',
+
+    updated_at TIMESTAMP,
+    updated_by VARCHAR(20),
+
+    is_deleted BOOLEAN NOT NULL DEFAULT FALSE,
+
+    deleted_at TIMESTAMP,
+    deleted_by VARCHAR(20),
+
+    CHECK (
+        (updated_at IS NULL AND updated_by IS NULL)
+        OR
+        (updated_at IS NOT NULL AND updated_by IS NOT NULL
+         AND updated_at >= created_at)
+    ),
+
+    CHECK (
+        (is_deleted = FALSE AND deleted_at IS NULL AND deleted_by IS NULL)
+        OR
+        (is_deleted = TRUE AND deleted_at IS NOT NULL
+         AND deleted_by IS NOT NULL
+         AND deleted_at >= COALESCE(updated_at, created_at))
+    )
 );
 
 
@@ -148,6 +316,3 @@ ON product(seller_id);
 
 CREATE INDEX idx_promotion_product_product
 ON promotion_product(product_id);
-
-CREATE INDEX idx_promotion_product_promotion
-ON promotion_product(promotion_id);
