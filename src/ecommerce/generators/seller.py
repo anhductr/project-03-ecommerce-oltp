@@ -9,7 +9,6 @@ from ecommerce.utils.faker_utils import (
     random_decimal,
 )
 
-
 # =========================================
 # SELLER CONFIGURATION
 # =========================================
