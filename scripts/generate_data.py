@@ -10,10 +10,8 @@ from ecommerce.generators.promotion_product import (
     generate_promotion_products,
 )
 from ecommerce.generators.seller import generate_sellers
-
 from ecommerce.utils.faker_utils import seed_generators
 from ecommerce.utils.validation import validate_dataset
-
 
 # =========================================
 # CONFIGURATION
@@ -139,8 +137,7 @@ def main() -> None:
     total_records = 0
 
     for table_name, records in dataset.items():
-
-        output_path = export_to_csv(
+        export_to_csv(
             table_name,
             records,
         )

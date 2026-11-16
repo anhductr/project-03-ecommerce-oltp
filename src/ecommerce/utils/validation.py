@@ -1,6 +1,5 @@
 from datetime import datetime
 
-
 EXPECTED_COUNTS = {
     "brand": 20,
     "category": 25,
@@ -46,7 +45,7 @@ def validate_audit(
         created_by = record["created_by"]
 
         if not isinstance(created_at, datetime):
-            raise ValueError(f"Invalid created_at in {table_name}")
+            raise TypeError(f"Invalid created_at in {table_name}")
 
         if not created_by or len(created_by) > 20:
             raise ValueError(f"Invalid created_by in {table_name}")
@@ -71,7 +70,7 @@ def validate_audit(
         deleted_by = record["deleted_by"]
 
         if not isinstance(is_deleted, bool):
-            raise ValueError(f"Invalid is_deleted in {table_name}")
+            raise TypeError(f"Invalid is_deleted in {table_name}")
 
         if is_deleted:
             delete_start = updated_at or created_at
